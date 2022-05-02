@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //ActivityResultLauncher<T>객체를 생성해주고 초기화 해준다.
     //T는 내가 호출할 엑티비티에서 결과값으로 받아올 자료형을 말한다.
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
+
+
     val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +69,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (it.resultCode == RESULT_OK) {
                     //SubActivity에서 갖고온 Intent(It)
                     val myData: Intent? = it.data
-                    val address = it.data?.getStringExtra("KEY1") ?: ""
-                    Log.e(TAG, address)
+//                    val address = it.data?.getStringExtra("data") ?: ""
+//                    Log.e(TAG, address)
                     Log.d("again","데이터 가지고 왔나")
                     countnum.text = myData.toString()
                 }

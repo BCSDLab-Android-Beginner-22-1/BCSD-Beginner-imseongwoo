@@ -29,8 +29,10 @@ class RandomActivity : AppCompatActivity() {
 
         val random_num = num.text
         val intent = Intent()
-        intent.putExtra("Data",random_num)
+        intent.putExtra("data",random_num)
         setResult(Activity.RESULT_OK,intent)
+        Log.e("random num", random_num.toString())
+        Log.e("intent", intent.toString())
         finish()
         Log.d("ran","onbackpressed 끝")
 
