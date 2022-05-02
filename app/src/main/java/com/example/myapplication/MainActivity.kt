@@ -76,13 +76,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     override fun onClick(v: View?) {
-
+        val countnum = findViewById<TextView>(R.id.id_count_num)
         when (v?.id) {
             //버튼을 누르면 메뉴 엑티비티가 실행되게 하였다.
             //launch메서드를 이용해 intent를 실행하고 새 엑티비티로부터 응답을받는다.
             //그리고 RequestCode가 사라졌다.
             binding.buttonRandom.id -> {
+                val num = countnum.text.toString()
                 val intent = Intent(applicationContext, RandomActivity::class.java)
+                intent.putExtra("Data",num)
                 activityResultLauncher.launch(intent)
             }
 
