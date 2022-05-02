@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,9 +31,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val count = 0
-
         setContentView(binding.root)
+
+        var count = 0
+        val countnum = findViewById<TextView>(R.id.id_count_num)
+        val countbtn = findViewById<Button>(R.id.button_count)
+
         // toast 메시지 출력1
 //        val buttontoast = findViewById<Button>(R.id.button_toast)
 //        buttontoast.setOnClickListener { Toast.makeText(this,"토스트",Toast.LENGTH_SHORT).show() }
@@ -42,8 +46,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(this,"toast message",Toast.LENGTH_SHORT).show()
         }
 
-        binding.buttonCount.setOnClickListener {
+//        binding.buttonCount.setOnClickListener {
+//            count++
+//            binding.idCountNum.setText(count)
+//        }
 
+        // count 구현
+        countbtn.setOnClickListener {
+            count++
+            countnum.text = count.toString()
         }
 
 
