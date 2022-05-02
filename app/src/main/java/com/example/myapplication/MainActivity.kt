@@ -5,11 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.myapplication.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    // Random
+    val random = Random()
+
+
+
+
+
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     //ActivityResultLauncher<T>객체를 생성해주고 초기화 해준다.
@@ -18,7 +29,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val count = 0
+
         setContentView(binding.root)
+        // toast 메시지 출력1
+//        val buttontoast = findViewById<Button>(R.id.button_toast)
+//        buttontoast.setOnClickListener { Toast.makeText(this,"토스트",Toast.LENGTH_SHORT).show() }
+
+        // toast 메시지 출력2
+        binding.buttonToast.setOnClickListener {
+            Toast.makeText(this,"toast message",Toast.LENGTH_SHORT).show()
+        }
+
+        binding.buttonCount.setOnClickListener {
+
+        }
+
+
+
+
+
 
         binding.buttonRandom.setOnClickListener(this)
 
