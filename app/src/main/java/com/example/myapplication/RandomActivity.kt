@@ -1,7 +1,10 @@
 package com.example.myapplication
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import java.util.*
 
@@ -15,13 +18,22 @@ class RandomActivity : AppCompatActivity() {
 
         // 랜덤 숫자 생성
         val int_random = Random().nextInt(count_num!!.toInt())
-
-
         num.text = int_random.toString()
 
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        val num = findViewById<TextView>(R.id.textview_random)
+
+        val random_num = num.text
+        val intent = Intent()
+        intent.putExtra("Data",random_num)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+        Log.d("ran","onbackpressed 끝")
+
+
     }
 }

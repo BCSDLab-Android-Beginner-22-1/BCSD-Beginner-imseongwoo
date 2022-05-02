@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     val myData: Intent? = it.data
                     val address = it.data?.getStringExtra("KEY1") ?: ""
                     Log.e(TAG, address)
+                    Log.d("again","데이터 가지고 왔나")
+                    countnum.text = myData.toString()
                 }
             }
 
