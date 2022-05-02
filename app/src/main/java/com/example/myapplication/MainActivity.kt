@@ -15,13 +15,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    // Random
-    val random = Random()
-
-
-
-
-
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     //ActivityResultLauncher<T>객체를 생성해주고 초기화 해준다.
@@ -46,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(this,"toast message",Toast.LENGTH_SHORT).show()
         }
 
+        // count 구현 예정
 //        binding.buttonCount.setOnClickListener {
 //            count++
 //            binding.idCountNum.setText(count)
@@ -56,9 +50,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             count++
             countnum.text = count.toString()
         }
-
-
-
 
 
 
