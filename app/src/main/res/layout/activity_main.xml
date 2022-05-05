@@ -10,7 +10,7 @@
         android:id="@+id/id_count_num"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
-        android:text="0"
+        android:text="@string/mainText"
         android:textSize="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,26 +20,26 @@
 
 
     <Button
-        android:id="@+id/button_toast"
+        android:id="@+id/toast_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TOAST"
+        android:text="@string/toastBtn"
         app:layout_constraintTop_toBottomOf="@+id/id_count_num" />
 
     <Button
-        android:id="@+id/button_count"
+        android:id="@+id/count_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="COUNT"
-        app:layout_constraintEnd_toStartOf="@+id/button_random"
-        app:layout_constraintStart_toEndOf="@+id/button_toast"
+        android:text="@string/countBtn"
+        app:layout_constraintEnd_toStartOf="@+id/random_button"
+        app:layout_constraintStart_toEndOf="@+id/toast_button"
         app:layout_constraintTop_toBottomOf="@+id/id_count_num" />
 
     <Button
-        android:id="@+id/button_random"
+        android:id="@+id/random_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RANDOM"
+        android:text="@string/randomBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_count_num" />
 
