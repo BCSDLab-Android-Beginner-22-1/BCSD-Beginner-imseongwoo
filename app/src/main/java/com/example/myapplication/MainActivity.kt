@@ -14,17 +14,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.myapplication.databinding.ActivityMainBinding
 import java.util.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     var updateCount = 0
-    private lateinit var countNum:TextView
+    private lateinit var countNum: TextView
 
-    val startActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == Activity.RESULT_OK) {
-            updateCount = it.data!!.getIntExtra("countNum", 0)
-            countNum.text = updateCount.toString()
+    val startActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                updateCount = it.data!!.getIntExtra("countNum", 0)
+                countNum.text = updateCount.toString()
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(){
 
 
         toastBtn.setOnClickListener {
-            Toast.makeText(this,"toast message",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "toast message", Toast.LENGTH_SHORT).show()
         }
 
         countBtn.setOnClickListener {
@@ -48,8 +49,8 @@ class MainActivity : AppCompatActivity(){
         }
 
         randomBtn.setOnClickListener {
-            val intent = Intent(this,RandomActivity::class.java)
-            intent.putExtra("data",count)
+            val intent = Intent(this, RandomActivity::class.java)
+            intent.putExtra("data", count)
             startActivity.launch(intent)
         }
 
