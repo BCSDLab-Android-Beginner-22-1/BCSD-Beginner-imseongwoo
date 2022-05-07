@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 .setNeutralButton("neutral",
                     DialogInterface.OnClickListener { dialog, id ->
+                        Toast.makeText(this,"neutral 클릭",Toast.LENGTH_SHORT).show()
                     }
 
                 )
