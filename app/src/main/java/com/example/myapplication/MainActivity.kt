@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -40,7 +42,25 @@ class MainActivity : AppCompatActivity() {
 
 
         toastBtn.setOnClickListener {
-            Toast.makeText(this, "toast message", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Alert Dialog!")
+                .setMessage("메세지 내용 부분")
+                .setPositiveButton("positive",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        countNum.text = "0"
+                        count = 0
+
+                    })
+                .setNegativeButton("negative",
+                    DialogInterface.OnClickListener { dialog, id ->
+                    }
+                )
+                .setNeutralButton("neutral",
+                    DialogInterface.OnClickListener { dialog, id ->
+                    }
+
+                )
+            builder.show()
         }
 
         countBtn.setOnClickListener {
