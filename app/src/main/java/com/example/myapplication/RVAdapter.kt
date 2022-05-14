@@ -15,15 +15,22 @@ class RVAdapter(val items: MutableList<String>) : RecyclerView.Adapter<RVAdapter
 
     interface ItemClick {
         fun onClick(view: View, position: Int)
+        fun onLongClick(view: View, position: Int)
+
     }
 
     var itemClick: ItemClick? = null
 
+
     override fun onBindViewHolder(holder: RVAdapter.ViewHolder, position: Int) {
 
         if (itemClick != null) {
+
             holder.itemView.setOnClickListener { v ->
                 itemClick?.onClick(v, position)
+            }
+            holder.itemView.setOnLongClickListener{ v->
+                itemClick?.onLongClick(v,position)
             }
         }
         holder.bindItems(items[position])
@@ -41,5 +48,9 @@ class RVAdapter(val items: MutableList<String>) : RecyclerView.Adapter<RVAdapter
             rv_text.text = item
         }
 
+    }
+    fun dataDelete(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
