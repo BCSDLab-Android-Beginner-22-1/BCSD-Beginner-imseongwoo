@@ -7,32 +7,35 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RVAdapter(val items: MutableList<String>) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+    private lateinit var mListener: onItemClickListener
+    private lateinit var mlListener: onItemLongClickListener
+
+    interface onItemClickListener {
+        fun onItemClick(position: Int)
+
+    }
+    interface onItemLongClickListener {
+        fun onItemLongClick(position: Int)
+    }
+
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        this.mListener = listener
+    }
+
+    fun setOnItemLongClickListener(llistener: onItemLongClickListener) {
+        this.mlListener = llistener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item, parent, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view,mListener,mlListener)
     }
-
-    interface ItemClick {
-        fun onClick(view: View, position: Int)
-        fun onLongClick(view: View, position: Int)
-
-    }
-
-    var itemClick: ItemClick? = null
 
 
     override fun onBindViewHolder(holder: RVAdapter.ViewHolder, position: Int) {
 
-        if (itemClick != null) {
-
-            holder.itemView.setOnClickListener { v ->
-                itemClick?.onClick(v, position)
-            }
-            holder.itemView.setOnLongClickListener{ v->
-                itemClick?.onLongClick(v,position)
-            }
-        }
         holder.bindItems(items[position])
     }
 
@@ -40,17 +43,34 @@ class RVAdapter(val items: MutableList<String>) : RecyclerView.Adapter<RVAdapter
         return items.size
     }
 
+    inner class ViewHolder(itemView: View,listener: onItemClickListener,llistener: onItemLongClickListener) : RecyclerView.ViewHolder(itemView) {
+        val rv_text = itemView.findViewById<TextView>(R.id.rvItem)
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
+            itemView.setOnLongClickListener {
+                llistener.onItemLongClick(adapterPosition)
+                return@setOnLongClickListener true
+            }
+
+        }
 
         fun bindItems(item: String) {
-            val rv_text = itemView.findViewById<TextView>(R.id.rvItem)
             rv_text.text = item
+
         }
 
     }
+
     fun dataDelete(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)
     }
+
 }
+
+
+
+

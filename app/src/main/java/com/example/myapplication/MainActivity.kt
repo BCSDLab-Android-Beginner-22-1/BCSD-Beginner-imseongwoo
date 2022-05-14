@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -33,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
 
-        rvAdapter.itemClick = object : RVAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
+        rvAdapter.setOnItemClickListener(object: RVAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
                 val dialog: AlertDialog = this@MainActivity.let {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(it)
                     builder.apply {
@@ -52,15 +51,30 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
             }
 
-            override fun onLongClick(view: View, position: Int) {
-                Toast.makeText(this@MainActivity,"g",Toast.LENGTH_SHORT).show()
-            }
-        }
+        })
 
+        rvAdapter.setOnItemLongClickListener(object: RVAdapter.onItemLongClickListener{
+            override fun onItemLongClick(position: Int) {
+                val dialog = CustomDialog(this@MainActivity)
+                dialog.showDia()
+                dialog.setOnClickListener(object: CustomDialog.ButtonClickListener{
+                    override fun onClicked(text: String) {
+                        items[position] = text
+                        rvAdapter.notifyDataSetChanged()
+
+                    }
+
+                })
+
+
+            }
+
+        })
 
 
     }
-
-
 }
+
+
+
 
