@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,7 +12,11 @@ class CAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        return CFragment(position)
+        val cFragment = CFragment()
+        val bundle = Bundle()
+        bundle.putInt("pos",position)
+        cFragment.arguments = bundle
+        return cFragment
     }
 
 }

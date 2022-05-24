@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/bFragmentTextView"
+        android:id="@+id/fragment_b_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b_fragment"
-        android:textSize="100dp"
+        android:textSize="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

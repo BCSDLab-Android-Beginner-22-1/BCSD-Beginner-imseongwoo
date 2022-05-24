@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-class CFragment(private var position: Int) : Fragment() {
+class CFragment() : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +21,7 @@ class CFragment(private var position: Int) : Fragment() {
         for (i in 'A'..'Z') {
             aList.add(i.toString())
         }
-        cFragmentText.text = aList[position]
+        cFragmentText.text = aList[requireArguments().getInt("pos")]
 
         return view
     }

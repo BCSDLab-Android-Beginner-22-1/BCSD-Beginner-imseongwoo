@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,12 @@ class AAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        return AFragment(position)
+        val aFragment = AFragment()
+        val bundle = Bundle()
+        bundle.putInt("pos",position)
+        aFragment.arguments = bundle
+
+        return aFragment
     }
 
 }
