@@ -31,13 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var countNum: TextView
     var updateCount = 0
 
-    val startActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                updateCount = it.data!!.getIntExtra("countNum", 0)
-                countNum.text = updateCount.toString()
-            }
-        }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
