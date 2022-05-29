@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
                 false, getString(R.string.app_name), "App notification channel")
 
             val channelId = "$packageName-${getString(R.string.app_name)}"
-            val title = "7주차 과제"
-            val content = "랜덤 숫자 띄우기"
+            val title = getString(R.string.title)
+            val content = getString(R.string.random)
 
             val intent = Intent(this, RandomActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
