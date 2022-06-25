@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -47,8 +48,17 @@ class MainActivity : AppCompatActivity() {
         val adapter = MusicAdapter()
         adapter.musicList.addAll(getMusicList())
 
+        adapter.setMyItemClickListener(object :MusicAdapter.MyItemClickListener{
+            override fun onItemClick(position: Int) {
+                Toast.makeText(this@MainActivity,"$position",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+
 
     }
 
