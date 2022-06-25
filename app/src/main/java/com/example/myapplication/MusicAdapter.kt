@@ -69,24 +69,3 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.Holder>() {
         holder.setMusic(music)
     }
 }
-
-//class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//    private lateinit var musicUri: Uri
-//    val imageAlbum = itemView.findViewById<ImageView>(R.id.imageAlbum)
-//    val textArtist = itemView.findViewById<TextView>(R.id.textArtist)
-//    val textTitle = itemView.findViewById<TextView>(R.id.textTitle)
-//    val textDuration = itemView.findViewById<TextView>(R.id.textDuration)
-//
-//
-//    fun setMusic(music: Music) {
-//        val albumid = music.albumId
-//        musicUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, music.id)
-//        imageAlbum.setImageURI(Uri.parse("content://media/external/audio/albumart/$albumid"))
-//
-//        textArtist.text = music.artist
-//        textTitle.text = music.title
-//        val sdf = SimpleDateFormat("HH:mm:ss")
-//        textDuration.text = sdf.format(music.duration)
-//
-//    }
-//}

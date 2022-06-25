@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
@@ -18,6 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mediaPlayer: MediaPlayer
+    private val musicAdapter = MusicAdapter()
+    lateinit var nowMusic: Music
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val requestPermissionLauncher =
@@ -46,21 +54,35 @@ class MainActivity : AppCompatActivity() {
     fun startProcess(){
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = MusicAdapter()
+        val musicData = getMusicList()
         adapter.musicList.addAll(getMusicList())
 
-        adapter.setMyItemClickListener(object :MusicAdapter.MyItemClickListener{
-            override fun onItemClick(position: Int) {
-                Toast.makeText(this@MainActivity,"$position",Toast.LENGTH_SHORT).show()
-            }
-
-        })
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        adapter.setMyItemClickListener(object :MusicAdapter.MyItemClickListener{
+            override fun onItemClick(position: Int) {
+                Toast.makeText(this@MainActivity,"$position",Toast.LENGTH_SHORT).show()
+
+//                createNotification(musicData)
+                mediaPlayer = MediaPlayer().apply {
+                    setAudioAttributes(
+                        AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+                    )
+                    setDataSource(applicationContext,
+                        Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, musicData[position].id))
+                    prepare()
+                    start()
+                }
+//                onMediaStateChangeListener.onMediaStateChange(true)
+            }
+
+        })
 
 
     }
+
 
     fun getMusicList(): List<Music> {
         val musicListUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -89,8 +111,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun permissionDialog(isDeniedOnce: Boolean) {
-        when (isDeniedOnce) {
+    private fun permissionDialog(isDenied: Boolean) {
+        when (isDenied) {
             true -> {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("권한 요청")
