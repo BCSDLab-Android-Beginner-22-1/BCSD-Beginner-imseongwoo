@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,19 +17,24 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            startProcess()
-        } else {
-            Toast.makeText(this, "권한 요청을 승인해야지만 앱을 실행할 수 있습니다.", Toast.LENGTH_LONG).show()
-            finish()
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            when (isGranted) {
+                true -> startProcess()
+                else -> {
+                    when (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        true -> permissionDialog(true)
+                        else -> permissionDialog(false)
+                    }
+                }
+            }
         }
-    }
 
     private val permissions = Manifest.permission.READ_EXTERNAL_STORAGE
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startProcess(){
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = MusicAdapter()
         adapter.musicList.addAll(getMusicList())
 
@@ -67,5 +76,26 @@ class MainActivity : AppCompatActivity() {
         }
         cursor?.close()
         return musicList
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun permissionDialog(isDeniedOnce: Boolean) {
+        when (isDeniedOnce) {
+            true -> {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("권한 요청")
+                    .setMessage("허용 버튼을 눌러주세요.")
+                    .setPositiveButton("확인") { _, _ ->
+                        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                    .setNegativeButton("취소") { dialog, _ ->
+                        dialog.dismiss()
+                        finish()
+                    }
+                    .setCancelable(false)
+                builder.show()
+            }
+
+        }
     }
 }
