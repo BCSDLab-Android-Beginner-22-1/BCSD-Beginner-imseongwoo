@@ -3,22 +3,21 @@ package com.example.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +25,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private val musicAdapter = MusicAdapter()
     lateinit var nowMusic: Music
+    lateinit var musicService: MusicService
+    private val musicList = mutableListOf<Music>()
+
+    var btn: Button? = null
+
+    fun getMusicListToService(): List<Music> {
+        val musicListSecond = getMusicList()
+        return musicListSecond
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val requestPermissionLauncher =
@@ -41,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
     private val permissions = Manifest.permission.READ_EXTERNAL_STORAGE
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -51,30 +60,39 @@ class MainActivity : AppCompatActivity() {
         requestPermissionLauncher.launch(permissions)
     }
 
-    fun startProcess(){
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+    fun startProcess() {
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val adapter = MusicAdapter()
         val musicData = getMusicList()
+
         adapter.musicList.addAll(getMusicList())
 
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter.setMyItemClickListener(object :MusicAdapter.MyItemClickListener{
+        adapter.setMyItemClickListener(object : MusicAdapter.MyItemClickListener {
             override fun onItemClick(position: Int) {
-                Toast.makeText(this@MainActivity,"$position",Toast.LENGTH_SHORT).show()
+
 
 //                createNotification(musicData)
                 mediaPlayer = MediaPlayer().apply {
                     setAudioAttributes(
-                        AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+                        AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .build()
                     )
                     setDataSource(applicationContext,
-                        Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, musicData[position].id))
+                        Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                            musicData[position].id))
                     prepare()
                     start()
+
                 }
+                val intent = Intent(this@MainActivity, MusicService::class.java)
+//                intent.action = Actions.START_FOREGROUND
+                startService(intent)
+                Toast.makeText(this@MainActivity, "Service start", Toast.LENGTH_SHORT).show()
+
 //                onMediaStateChangeListener.onMediaStateChange(true)
             }
 
@@ -83,6 +101,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+//    private fun initMusicPlayer() {
+//        if (musicService.isPlaying() || musicService.isPaused()) {
+//            waitUntilMusicEnd()
+//            val nowMusic = musicService.nowMusic
+//
+//            val albumArt = getAlbumArt(this@MainActivity, resources, nowMusic.albumUri.toUri())
+//            nowAlbumArtImage.setImageDrawable(albumArt)
+//            expandedAlbumArtImage.setImageDrawable(albumArt)
+//
+//            nowTitleTextView.text = nowMusic.title
+//            expandedTitleTextView.text = nowMusic.title
+//            nowArtistTextView.text = nowMusic.artist
+//            expandedArtistTextView.text = nowMusic.artist
+//
+//            expandedPlayTime.text = getDuration(
+//                TimeUnit.MILLISECONDS.toSeconds(
+//                    musicService.getCurrentPosition()
+//                        .toLong()
+//                )
+//            )
+//            expandedMusicTime.text = getDuration(TimeUnit.MILLISECONDS.toSeconds(nowMusic.duration))
+//        }
+//
+//        initCallback()
+//        initPlayPauseButton(musicService.isPlaying())
+//    }
 
     fun getMusicList(): List<Music> {
         val musicListUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -94,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             MediaStore.Audio.Media.DURATION
         )
         val cursor = contentResolver.query(musicListUri, proj, null, null, null)
-        val musicList = mutableListOf<Music>()
+//        val musicList = mutableListOf<Music>()
         while (cursor?.moveToNext() ?: false) {
             val id = cursor!!.getString(0)
             val title = cursor!!.getString(1)
@@ -129,5 +173,13 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onBackPressed() {
+        val serviceIntent = Intent(this@MainActivity, MusicService::class.java)
+        stopService(serviceIntent)
+        Toast.makeText(this@MainActivity, "Service stop", Toast.LENGTH_SHORT).show()
+        finish()
+
     }
 }
