@@ -7,13 +7,19 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.Service
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.provider.MediaStore
 import android.util.Log
 import androidx.core.app.NotificationCompat
 
 class MusicService() : Service() {
     private val mainActivity = MainActivity()
+    private lateinit var mediaPlayer: MediaPlayer
+    lateinit var nowMusic: Music
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
     }
@@ -46,20 +52,17 @@ class MusicService() : Service() {
         }
     }
 
-    private fun createNotification() {
+    fun createNotification() {
         val builder = NotificationCompat.Builder(this, "default")
-
-//        val musicList = mainActivity.getMusicListToService()
         builder.setSmallIcon(R.mipmap.ic_launcher)
-//        builder.setContentTitle(musicData.title)
+        builder.setContentTitle("music player")
         builder.setContentText("음악이 실행중입니다.")
         builder.color = Color.RED
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, FLAG_IMMUTABLE)
-        builder.setContentIntent(pendingIntent) // 알림 클릭 시 이동
+        builder.setContentIntent(pendingIntent)
 
-        // 알림 표시
         val notificationManager = this.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(
@@ -73,6 +76,21 @@ class MusicService() : Service() {
         notificationManager.notify(NOTI_ID, builder.build()) // id : 정의해야하는 각 알림의 고유한 int값
         val notification = builder.build()
         startForeground(NOTI_ID, notification)
+    }
+
+    fun startMusic(musicData: List<Music>, position: Int){
+        mediaPlayer = MediaPlayer().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+            )
+            setDataSource(applicationContext,
+                Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    musicData[position].id))
+            prepare()
+            start()
+
+        }
     }
 
     override fun onDestroy() {
