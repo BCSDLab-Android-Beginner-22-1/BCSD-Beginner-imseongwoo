@@ -33,10 +33,10 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.Holder>() {
         }
 
         private lateinit var musicUri: Uri
-        val imageAlbum = itemView.findViewById<ImageView>(R.id.imageAlbum)
-        val textArtist = itemView.findViewById<TextView>(R.id.textArtist)
-        val textTitle = itemView.findViewById<TextView>(R.id.textTitle)
-        val textDuration = itemView.findViewById<TextView>(R.id.textDuration)
+        val imageAlbum = itemView.findViewById<ImageView>(R.id.image_album)
+        val textArtist = itemView.findViewById<TextView>(R.id.text_artist)
+        val textTitle = itemView.findViewById<TextView>(R.id.text_title)
+        val textDuration = itemView.findViewById<TextView>(R.id.text_duration)
 
 
 
