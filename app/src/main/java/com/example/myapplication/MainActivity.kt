@@ -3,23 +3,25 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    var flag = false
     var lapList = mutableListOf<LapData>()
     var job: Job? = null
     private lateinit var timeTextView: TextView
     private var lapNum = 1
     private val lapAdapter = LapAdapter()
-    private var time = 0L
+    private var isStart = false
+    private var startTime = 0L
+    private var isNotPaused = true
+    private var pauseTime: Long = 0L
+    private var resumeTime: Long = 0L
+    var nowTime = 0L
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -27,38 +29,48 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        timeTextView = findViewById<TextView>(R.id.time_textview)
+        timeTextView = findViewById(R.id.time_textview)
         val startButton = findViewById<Button>(R.id.start_button)
         val stopButton = findViewById<Button>(R.id.stop_button)
         val lapButton = findViewById<Button>(R.id.lap_button)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
 
         startButton.setOnClickListener {
-            if (flag == true) {
-                job?.cancel()
-                startButton.text = getString(R.string.start)
-                flag = false
-            } else {
-                timer()
+            if (!isStart) {
+                startTime = System.currentTimeMillis()
+                startTimer(startTime)
                 startButton.text = getString(R.string.pause)
-                flag = true
+                this.isStart = true
+
+            } else {
+                if (isNotPaused) {
+                    pauseTimer()
+                    isNotPaused = !isNotPaused
+                    startButton.text = getString(R.string.start)
+                } else {
+                    startTime = resumeTime
+                    startTimer(resumeTime)
+                    isNotPaused = !isNotPaused
+                    startButton.text = getString(R.string.start)
+                }
             }
 
         }
+
+
         stopButton.setOnClickListener {
             job?.cancel()
-            time = 0L
             startButton.text = getString(R.string.start)
             lapList.clear()
             lapAdapter.notifyDataSetChanged()
             timeTextView.text = getString(R.string.time)
-            flag = false
+            this.isStart = false
             lapNum = 1
         }
 
         lapButton.setOnClickListener {
-            if (flag) {
-                lapList.add(0, LapData(lapNum, time))
+            if (this.isStart) {
+                lapList.add(0, LapData(lapNum, nowTime))
                 lapNum++
                 lapAdapter.notifyDataSetChanged()
             }
@@ -74,25 +86,51 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun timer() {
-        flag = true
+    private fun pauseTimer() {
+        pauseTime = (System.currentTimeMillis() - startTime)
+
+        timeTextView.text = pauseTime.displayTime()
         job = CoroutineScope(Dispatchers.Main).launch {
             while (true) {
-                delay(10L)
-                timeTextView.text = convertTime(time)
-                time += 10L
-                Log.d("time","시간 : $time")
+                resumeTime = System.currentTimeMillis() - pauseTime
+                delay(INTERVAL)
             }
         }
     }
 
-    private fun convertTime(time: Long): String {
-        val nowMinutes = TimeUnit.MILLISECONDS.toMinutes(time)
-        val nowSeconds =
-            TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(nowMinutes)
-        val nowMillis =
-            time - TimeUnit.SECONDS.toMillis(nowSeconds) - TimeUnit.MINUTES.toMillis(nowMinutes)
+    private fun startTimer(time: Long) {
+        job = CoroutineScope(Dispatchers.Main).launch {
+            while (isNotPaused) {
+                nowTime = System.currentTimeMillis() - time
+                timeTextView.text = nowTime.displayTime()
+                delay(INTERVAL)
+            }
+        }
 
-        return String.format("%02d:%02d.%02d", nowMinutes, nowSeconds, nowMillis / 10)
+    }
+
+    fun Long.displayTime(): String {
+        if (this <= 0L) {
+            return START_TIME
+        }
+
+        val m = this / 1000 % 3600 / 60
+        val s = this / 1000 % 60
+        val ms = this % 1000 / 10
+
+        return "${displaySlot(m)}:${displaySlot(s)}:${displaySlot(ms)}"
+    }
+
+    private fun displaySlot(count: Long): String {
+        return if (count / 10L > 0) {
+            "$count"
+        } else {
+            "0$count"
+        }
+    }
+
+    companion object {
+        const val START_TIME = "00:00:00"
+        private const val INTERVAL = 10L
     }
 }

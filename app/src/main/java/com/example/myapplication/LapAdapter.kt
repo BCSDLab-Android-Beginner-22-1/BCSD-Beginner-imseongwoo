@@ -35,14 +35,12 @@ class LapAdapter : RecyclerView.Adapter<ViewHolder>() {
         fun bind(data: LapData, holder: ViewHolder) {
             with(holder) {
                 val time = data.lap
-                val nowMinutes = TimeUnit.MILLISECONDS.toMinutes(time)
-                val nowSeconds = TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(nowMinutes)
-                val nowMillis = time - TimeUnit.SECONDS.toMillis(nowSeconds) - TimeUnit.MINUTES.toMillis(nowMinutes)
+                val m = time / 1000 % 3600 / 60
+                val s = time / 1000 % 60
+                val ms = time % 1000 / 10
                 lapNumTextView.text = data.num.toString()
                 lapTimeTextView.text = String.format("%02d : %02d : %02d",
-                    nowMinutes,
-                    nowSeconds,
-                    nowMillis / 10)
+                    m, s, ms)
             }
         }
     }
