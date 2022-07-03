@@ -118,17 +118,11 @@ class MainActivity : AppCompatActivity() {
         val s = this / 1000 % 60
         val ms = this % 1000 / 10
 
-        return "${displaySlot(m)}:${displaySlot(s)}:${displaySlot(ms)}"
+        return String.format("%02d : %02d : %02d",
+            m, s, ms)
     }
 
-    private fun displaySlot(count: Long): String {
-        return if (count / 10L > 0) {
-            "$count"
-        } else {
-            "0$count"
-        }
-    }
-
+    
     companion object {
         const val START_TIME = "00:00:00"
         private const val INTERVAL = 10L
