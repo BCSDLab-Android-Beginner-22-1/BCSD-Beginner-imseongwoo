@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemBoardBinding
 
-class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
+class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     private lateinit var itemBoardBinding: ItemBoardBinding
 
     interface MyItemClickListener {
@@ -19,15 +19,15 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     private lateinit var mItemClickListener: MyItemClickListener
     var boardList = mutableListOf<BoardData>()
 
-    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+    fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_board,parent,false)
-
-        itemBoardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.item_board,parent,false)
+        itemBoardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
+            R.layout.item_board,
+            parent,
+            false)
         return ViewHolder(itemBoardBinding)
     }
 
@@ -44,7 +44,7 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
         }
     }
 
-    inner class ViewHolder(val binding:ItemBoardBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
                 mItemClickListener.onItemClick(adapterPosition)
@@ -59,7 +59,16 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     }
 
+    fun addItem(data: BoardData){
+        boardList.add(0,data)
 
+    }
+
+    fun deleteItem(position: Int) {
+        boardList.removeAt(position)
+        notifyItemRemoved(position)
+
+    }
 
 }
 
