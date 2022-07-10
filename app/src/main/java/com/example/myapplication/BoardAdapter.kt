@@ -26,9 +26,9 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_board,parent,false)
-//        return ViewHolder(view)
+
         itemBoardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.item_board,parent,false)
-        return ViewHolder(view,itemBoardBinding)
+        return ViewHolder(itemBoardBinding)
     }
 
 
@@ -39,16 +39,12 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             binding.title.text = boardList[position].title
-//            boardTitle.text = boardList[position].title
             binding.writerContentTextview.text = boardList[position].writer
-//            boardWriter.text = boardList[position].writer
             binding.boardContentTextview.text = boardList[position].content
-
-
         }
     }
 
-    inner class ViewHolder(itemView: View,val binding:ItemBoardBinding) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(val binding:ItemBoardBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
                 mItemClickListener.onItemClick(adapterPosition)
@@ -59,10 +55,7 @@ class BoardAdapter: RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
             }
 
         }
-        val boardTitle : TextView = itemView.findViewById(R.id.title)
-        val boardWriter : TextView = itemView.findViewById(R.id.writer_content_textview)
-        val boardTime : TextView = itemView.findViewById(R.id.time_content_textview)
-        val boardContent : TextView = itemView.findViewById(R.id.board_content_textview)
+
 
     }
 

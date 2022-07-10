@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-<!--    <data>-->
-
-<!--        <variable-->
-<!--            name="main"-->
-<!--            type="com.example.myapplication.BoardData" />-->
-<!--    </data>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
