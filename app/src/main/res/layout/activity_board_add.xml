@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="제목 : "
+            android:text="@string/title_textview"
             android:textAlignment="textEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
             android:id="@+id/add_writer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="작성자 : "
+            android:text="@string/writer_textview"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/add_writer_content_textview"
             app:layout_constraintStart_toEndOf="@+id/add_title"
@@ -64,7 +64,7 @@
             android:id="@+id/add_time_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="작성 날짜 : "
+            android:text="@string/write_date_textview"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/add_time_content_textview"
             app:layout_constraintStart_toEndOf="@+id/add_writer_content_textview"
@@ -74,7 +74,6 @@
             android:id="@+id/add_time_content_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="22.07.11"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/add_time_textview"
@@ -94,7 +93,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="내용"
+            android:text="@string/content"
             app:layout_constraintBottom_toTopOf="@id/add_board_content_textview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +106,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="작성"
+            android:text="@string/submit"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
