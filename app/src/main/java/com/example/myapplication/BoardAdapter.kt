@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemBoardBinding
 
-class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
+class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     private lateinit var itemBoardBinding: ItemBoardBinding
 
     interface MyItemClickListener {
@@ -44,6 +45,11 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
         }
     }
 
+    fun setData(newData:MutableList<BoardData>){
+        boardList = newData
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
@@ -59,16 +65,7 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     }
 
-    fun addItem(data: BoardData){
-        boardList.add(0,data)
 
-    }
-
-    fun deleteItem(position: Int) {
-        boardList.removeAt(position)
-        notifyItemRemoved(position)
-
-    }
 
 }
 
