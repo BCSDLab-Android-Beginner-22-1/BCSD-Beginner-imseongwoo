@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemBoardBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     private lateinit var itemBoardBinding: ItemBoardBinding
@@ -38,9 +40,11 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.KOREA)
         with(holder) {
             binding.title.text = boardList[position].title
             binding.writerContentTextview.text = boardList[position].writer
+            binding.timeContentTextview.text = boardList[position].time
             binding.boardContentTextview.text = boardList[position].content
         }
     }

@@ -9,17 +9,13 @@ class MainViewModel: ViewModel() {
     private val datalist = mutableListOf<BoardData>()
 
     init {
-        var boardData = arrayListOf<BoardData>()
-        boardData.add(BoardData("ex", "sa", "내용 예시입니다.1"))
-        boardData.add(BoardData("ex2", "sb", "내용 예시입니다.2"))
-        boardData.add(BoardData("ex2", "sb", "내용 예시입니다.2"))
-
-        liveData.postValue(boardData)
+        liveData.value = datalist
     }
 
     fun addItem(data: BoardData){
         datalist.add(0,data)
         liveData.value = datalist
+
 
     }
 
