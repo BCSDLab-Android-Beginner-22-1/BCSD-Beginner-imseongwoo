@@ -6,22 +6,21 @@ import androidx.lifecycle.ViewModel
 class MainViewModel: ViewModel() {
 
     var liveData : MutableLiveData<List<BoardData>> = MutableLiveData<List<BoardData>>()
-    private val datalist = mutableListOf<BoardData>()
+    private val mainRepository = MainRepository()
 
     init {
-        liveData.value = datalist
+        liveData.value = mainRepository.datalist
     }
 
     fun addItem(data: BoardData){
-        datalist.add(0,data)
-        liveData.value = datalist
+        liveData.value = mainRepository.addData(data)
 
 
     }
 
     fun deleteItem(position: Int) {
-        datalist.removeAt(position)
-        liveData.value = datalist
+
+        liveData.value = mainRepository.removeData(position)
 
     }
 

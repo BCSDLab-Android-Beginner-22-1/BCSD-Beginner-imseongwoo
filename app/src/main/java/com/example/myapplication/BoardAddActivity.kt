@@ -8,6 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.ActivityBoardAddBinding
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.ViewModelSingleton.viewModel
+
 
 class BoardAddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardAddBinding
@@ -18,7 +20,6 @@ class BoardAddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_add)
 
-        val viewmodel = ViewModelProvider(this).get(MainViewModel::class.java)
         var adapter = BoardAdapter()
 
         binding.submitButton.setOnClickListener {
@@ -27,11 +28,7 @@ class BoardAddActivity : AppCompatActivity() {
             val board = binding.addBoardContentTextview.text.toString()
             val time = binding.addTimeContentTextview.text.toString()
 
-            viewmodel.addItem(BoardData(title,writer,board,time))
-            viewmodel.liveData.observe(this , Observer {
-                adapter.setData(viewmodel.liveData.value!! as MutableList<BoardData>)
-
-            })
+            viewModel.addItem(BoardData(title,writer,board,time))
             finish()
         }
 

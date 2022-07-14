@@ -8,10 +8,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
@@ -22,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     var boardList = mutableListOf<BoardData>()
     private val boardAdapter = BoardAdapter()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewmodel : MainViewModel
+    private lateinit var viewModel : MainViewModel
     val date = Date()
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.KOREA)
     val currentTime = simpleDateFormat.format(date)
@@ -30,11 +28,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        viewmodel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        viewmodel.addItem(BoardData("ex1", "sw", "내용 예시입니다.1","${currentTime}"))
-        viewmodel.addItem(BoardData("ex2", "hk", "내용 예시입니다.2","${currentTime}"))
-        viewmodel.addItem(BoardData("ex3", "ch", "내용 예시입니다.3","${currentTime}"))
+        val viewModelSingleton = ViewModelSingleton
+        viewModelSingleton.viewModel = viewModel
+
+        viewModel.addItem(BoardData("ex1", "sw", "내용 예시입니다.1","${currentTime}"))
+        viewModel.addItem(BoardData("ex2", "hk", "내용 예시입니다.2","${currentTime}"))
+        viewModel.addItem(BoardData("ex3", "ch", "내용 예시입니다.3","${currentTime}"))
 
 
         val requestLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -60,13 +61,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onLongClick(position: Int) {
-                viewmodel.deleteItem(position)
+                viewModel.deleteItem(position)
             }
 
         })
 
-        viewmodel.liveData.observe(this , Observer {
-            boardAdapter.setData(viewmodel.liveData.value!! as MutableList<BoardData>)
+        viewModel.liveData.observe(this , Observer {
+            boardAdapter.setData(viewModel.liveData.value!! as MutableList<BoardData>)
         })
 
 

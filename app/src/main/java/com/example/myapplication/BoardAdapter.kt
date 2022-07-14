@@ -40,7 +40,6 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.KOREA)
         with(holder) {
             binding.title.text = boardList[position].title
             binding.writerContentTextview.text = boardList[position].writer
