@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="writer">작성자 :</string>
+    <string name="write_date">작성 날짜 :</string>
+    <string name="plus">+</string>
+    <string name="title_textview">제목 :</string>
+    <string name="writer_textview">작성자 :</string>
+    <string name="write_date_textview">작성 날짜 :</string>
+    <string name="content">내용</string>
+    <string name="submit">작성</string>
 </resources>
