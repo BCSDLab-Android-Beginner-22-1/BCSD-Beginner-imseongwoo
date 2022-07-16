@@ -24,4 +24,8 @@ class MainViewModel: ViewModel() {
 
     }
 
+    fun setViewModelUriArr(uriArr : ArrayList<String>){
+        mainRepository.setModelUriArr(uriArr)
+    }
+
 }

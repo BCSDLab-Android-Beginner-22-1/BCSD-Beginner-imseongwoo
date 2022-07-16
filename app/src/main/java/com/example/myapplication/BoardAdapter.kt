@@ -63,6 +63,7 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
                 return@setOnLongClickListener true
             }
 
+
         }
 
 
