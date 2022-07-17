@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityBoardAddBinding
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ViewModelSingleton.viewModel
@@ -50,6 +53,13 @@ class BoardAddActivity : AppCompatActivity() {
         binding.imageButton.setOnClickListener {
             requestLauncher.launch(intent)
         }
+
+        viewModel.imgUriLiveData.observe(this , Observer {
+            val imageView = binding.imageView
+            ImageView.ScaleType.CENTER_CROP.also { imageView.scaleType = it }
+            Glide.with(this).load(it).into(imageView)
+
+        })
 
 
     }

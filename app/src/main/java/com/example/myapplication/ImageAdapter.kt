@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ItemImageBinding
+import com.example.myapplication.ViewModelSingleton.viewModel
 
 class ImageAdapter(val context: Context, uriArr:ArrayList<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     private lateinit var itemImageBinding: ItemImageBinding
@@ -40,6 +41,7 @@ class ImageAdapter(val context: Context, uriArr:ArrayList<String>) : RecyclerVie
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.layoutParams = LinearLayout.LayoutParams(display.widthPixels/3,display.widthPixels/3)
         Glide.with(context).load(items[position]).into(imageView)
+
     }
 
     fun setData(newData:MutableList<String>){
@@ -52,6 +54,7 @@ class ImageAdapter(val context: Context, uriArr:ArrayList<String>) : RecyclerVie
             binding.recyclerviewImg.setOnClickListener {
                 val pos = adapterPosition
                 Log.d("click", pos.toString() + " : click!")
+                viewModel.setImgUriArr(items[pos])
 
 
             }

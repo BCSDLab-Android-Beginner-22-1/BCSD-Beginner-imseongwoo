@@ -6,10 +6,14 @@ import androidx.lifecycle.ViewModel
 class MainViewModel: ViewModel() {
 
     var liveData : MutableLiveData<List<BoardData>> = MutableLiveData<List<BoardData>>()
+    var imgUriLiveData : MutableLiveData<String> = MutableLiveData<String>()
+
+
     private val mainRepository = MainRepository()
 
     init {
         liveData.value = mainRepository.datalist
+//        imgUriLiveData.value = mainRepository.imgUriArr
     }
 
     fun addItem(data: BoardData){
@@ -26,6 +30,10 @@ class MainViewModel: ViewModel() {
 
     fun setViewModelUriArr(uriArr : ArrayList<String>){
         mainRepository.setModelUriArr(uriArr)
+    }
+
+    fun setImgUriArr(str: String){
+        imgUriLiveData.value = mainRepository.setModelImgUriArr(str)
     }
 
 }

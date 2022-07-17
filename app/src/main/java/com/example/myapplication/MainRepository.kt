@@ -7,6 +7,7 @@ class MainRepository {
 
     val datalist = mutableListOf<BoardData>()
     var uriArray = ArrayList<String>()
+    lateinit var imgUriArr:String
 
     fun removeData(position:Int): MutableList<BoardData> {
         datalist.removeAt(position)
@@ -22,5 +23,9 @@ class MainRepository {
         uriArray = uriArr
     }
 
+    fun setModelImgUriArr(str: String): String {
+        imgUriArr = str
+        return imgUriArr
+    }
 
 }
