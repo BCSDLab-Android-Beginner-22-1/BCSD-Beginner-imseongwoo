@@ -1,26 +1,22 @@
 package com.example.myapplication
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ItemBoardBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
-    private lateinit var itemBoardBinding: ItemBoardBinding
-
     interface MyItemClickListener {
         fun onItemClick(position: Int)
         fun onLongClick(position: Int)
     }
-
+    private lateinit var itemBoardBinding: ItemBoardBinding
+    val boardAddActivity = BoardAddActivity()
     private lateinit var mItemClickListener: MyItemClickListener
     var boardList = mutableListOf<BoardData>()
+    private lateinit var uriList: MutableList<String>
 
     fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
@@ -40,12 +36,16 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val imageView = holder.binding.itemImageview
         with(holder) {
             binding.title.text = boardList[position].title
             binding.writerContentTextview.text = boardList[position].writer
             binding.timeContentTextview.text = boardList[position].time
             binding.boardContentTextview.text = boardList[position].content
         }
+        Glide.with(holder.binding.root).load(boardList[position].imgUri).into(imageView)
+
+
     }
 
     fun setData(newData:MutableList<BoardData>){

@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityBoardAddBinding
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ViewModelSingleton.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +18,7 @@ import java.util.*
 
 class BoardAddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardAddBinding
+    val imgList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +31,6 @@ class BoardAddActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult())
         {
             Log.d("callback","call back!")
-//            val data: Intent? = it.data
-//            val uri = data?.getStringExtra("URI").toString()
-//
-//            Toast.makeText(this, uri,Toast.LENGTH_SHORT).show()
 
         }
         val intent : Intent = Intent(this,ImageActivity::class.java)
@@ -46,7 +39,8 @@ class BoardAddActivity : AppCompatActivity() {
             val title = binding.addTitle.text.toString()
             val writer = binding.addWriterContentTextview.text.toString()
             val board = binding.addBoardContentTextview.text.toString()
-            viewModel.addItem(BoardData(title, writer, board, currentTime))
+            val imgUri = imgList[0]
+            viewModel.addItem(BoardData(title, writer, board, currentTime,imgUri))
             finish()
         }
 
@@ -55,6 +49,7 @@ class BoardAddActivity : AppCompatActivity() {
         }
 
         viewModel.imgUriLiveData.observe(this , Observer {
+            imgList.add(0,it)
             val imageView = binding.imageView
             ImageView.ScaleType.CENTER_CROP.also { imageView.scaleType = it }
             Glide.with(this).load(it).into(imageView)

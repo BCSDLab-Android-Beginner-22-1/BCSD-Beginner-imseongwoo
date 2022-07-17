@@ -4,5 +4,6 @@ data class BoardData(
     val title: String,
     val writer: String,
     val content: String,
-    val time:String
+    val time:String,
+    val imgUri: String
 )

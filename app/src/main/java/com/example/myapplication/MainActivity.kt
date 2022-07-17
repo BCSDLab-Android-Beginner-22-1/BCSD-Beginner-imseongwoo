@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.plusButton.setOnClickListener {
+
             requestLauncher.launch(intent)
 
         }
