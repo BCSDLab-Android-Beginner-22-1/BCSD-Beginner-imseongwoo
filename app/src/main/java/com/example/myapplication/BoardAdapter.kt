@@ -12,11 +12,11 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
         fun onItemClick(position: Int)
         fun onLongClick(position: Int)
     }
+
     private lateinit var itemBoardBinding: ItemBoardBinding
     val boardAddActivity = BoardAddActivity()
     private lateinit var mItemClickListener: MyItemClickListener
     var boardList = mutableListOf<BoardData>()
-    private lateinit var uriList: MutableList<String>
 
     fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
@@ -48,7 +48,7 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     }
 
-    fun setData(newData:MutableList<BoardData>){
+    fun setData(newData: MutableList<BoardData>) {
         boardList = newData
         notifyDataSetChanged()
     }
@@ -68,7 +68,6 @@ class BoardAdapter() : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
 
     }
-
 
 
 }

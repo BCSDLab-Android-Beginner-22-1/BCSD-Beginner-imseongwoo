@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         checkPermission()
 
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
 
@@ -81,9 +80,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkPermission(){
-        // 권한 부여 확인
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            // 권한 허용 안됨
+
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
                 val alertDialog = AlertDialog.Builder(this)
                     .setTitle("권한 요청")
@@ -103,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     REQUEST_READ_EXTERMAL_STORAGE)
             }
         } else {
-            // 권한이 이미 허용됨
+
             binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         }

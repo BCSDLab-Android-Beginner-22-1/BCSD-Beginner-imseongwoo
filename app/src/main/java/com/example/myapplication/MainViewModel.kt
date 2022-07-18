@@ -2,6 +2,11 @@ package com.example.myapplication
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dj.loadingdialog.LoadingDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
@@ -13,7 +18,7 @@ class MainViewModel: ViewModel() {
 
     init {
         liveData.value = mainRepository.datalist
-//        imgUriLiveData.value = mainRepository.imgUriArr
+
     }
 
     fun addItem(data: BoardData){
@@ -35,5 +40,6 @@ class MainViewModel: ViewModel() {
     fun setImgUriArr(str: String){
         imgUriLiveData.value = mainRepository.setModelImgUriArr(str)
     }
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,7 +16,7 @@ import com.example.myapplication.ViewModelSingleton.viewModel
 
 class ImageAdapter(val context: Context, uriArr:ArrayList<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     private lateinit var itemImageBinding: ItemImageBinding
-    private var items = ArrayList<String>()
+    var items = ArrayList<String>()
     init {
         this.items = uriArr
     }
@@ -50,10 +51,10 @@ class ImageAdapter(val context: Context, uriArr:ArrayList<String>) : RecyclerVie
     }
 
     inner class ViewHolder(val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
+
         init {
             binding.recyclerviewImg.setOnClickListener {
                 val pos = adapterPosition
-                Log.d("click", pos.toString() + " : click!")
                 viewModel.setImgUriArr(items[pos])
 
 
