@@ -40,6 +40,9 @@ class MainViewModel: ViewModel() {
     fun setImgUriArr(str: String){
         imgUriLiveData.value = mainRepository.setModelImgUriArr(str)
     }
+    fun deleteImg(){
+        imgUriLiveData.value= mainRepository.deleteModelImg()
+    }
 
 
 }

@@ -56,7 +56,10 @@ class BoardAddActivity : AppCompatActivity() {
                 requestLauncher.launch(intent)
             }
 
+        }
 
+        binding.deleteButton.setOnClickListener {
+            viewModel.deleteImg()
         }
 
         viewModel.imgUriLiveData.observe(this, Observer {

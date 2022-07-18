@@ -28,4 +28,10 @@ class MainRepository {
         return imgUriArr
     }
 
+    fun deleteModelImg(): String{
+        imgUriArr = imgUriArr.removeRange(0,2)
+        return imgUriArr
+
+    }
+
 }
